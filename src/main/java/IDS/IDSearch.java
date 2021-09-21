@@ -2,21 +2,18 @@ package IDS;
 
 public class IDSearch {
     /* A utility function to print solution */
-    void printSolution(int board[][])
+    void printSolution(int[][] board)
     {
-        for (int i = 0; i < board.length; i++) {
+        for (int[] ints : board) {
             for (int j = 0; j < board.length; j++)
-                System.out.print(" " + board[i][j]
+                System.out.print(" " + ints[j]
                         + " ");
             System.out.println();
         }
     }
     /* A utility function to check if a queen can
-       be placed on board[row][col]. Note that this
-       function is called when "col" queens are already
-       placeed in columns from 0 to col -1. So we need
-       to check only left side for attacking queens */
-    boolean isSafe(int board[][], int row, int col) {
+       be placed on board[row][col]. */
+    boolean isSafe(int[][] board, int row, int col) {
         int i, j;
         /* Check this row on right side */
         for (i = col + 1; i < board.length; i++)
@@ -122,14 +119,7 @@ public class IDSearch {
         if(s.equals(State.CUTOFF)) return State.CUTOFF;
         return State.FALSE;
     }
-    /* This function solves the N Queen problem using
-       Backtracking.  It mainly uses solveNQUtil () to
-       solve the problem. It returns false if queens
-       cannot be placed, otherwise, return true and
-       prints placement of queens in the form of 1s.
-       Please note that there may be more than one
-       solutions, this function prints one of the
-       feasible solutions.*/
+
     public boolean solveNQ(int[][] board, int maximumDepth, int step)
     {
         if (!iterativeDepthSearch(board, maximumDepth, step)) {

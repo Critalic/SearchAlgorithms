@@ -6,15 +6,15 @@ import java.util.PriorityQueue;
 public class RBFSearch {
     PriorityQueue<Node> stack = new PriorityQueue<>();
     Node current;
-    Node previous;
+    Node alternative;
     Node random;
 
     /* A utility function to print solution */
-    void printSolution(int board[][])
+    void printSolution(int[][] board)
     {
-        for (int i = 0; i < board.length; i++) {
+        for (int[] ints : board) {
             for (int j = 0; j < board.length; j++)
-                System.out.print(" " + board[i][j]
+                System.out.print(" " + ints[j]
                         + " ");
             System.out.println();
         }
@@ -23,7 +23,7 @@ public class RBFSearch {
     public void solveNQ(int[][] board)
     {
         current = new Node(board, numberOfIntersections(board));
-        previous = new Node(board, numberOfIntersections(board));
+        alternative = new Node(board, numberOfIntersections(board));
         if(getSolution(board)) printSolution(current.getState());
         else System.out.println("Failed to find the solution");
     }
@@ -31,17 +31,20 @@ public class RBFSearch {
      boolean getSolution(int[][] board) {
         if(current.getNumberOfContacts()==0) return true;
         heuristicFunction(board);
-        if(stack.isEmpty()) return false;
-        if(stack.peek().getNumberOfContacts() >= previous.getNumberOfContacts()) {
+        if(stack.isEmpty() || stack.peek().getNumberOfContacts()> current.getNumberOfContacts()) return false;
+        if(stack.peek().getNumberOfContacts() >= alternative.getNumberOfContacts()) {
             current.setNumberOfConacts(stack.peek().getNumberOfContacts());
             return false;
         }
         current = stack.poll();
-        previous = stack.poll();
+        alternative = stack.poll();
         pickRandom();
         stack.clear();
         if(getSolution(current.getState())) return true;
-//        for(int i=0; i<3; i++) if(exchangeAndRerun()) return true;
+        for(int i=0; i<3; i++) {
+            stack.clear();
+            if(exchangeAndRerun()) return true;
+        }
         return useRandom();
     }
 
@@ -54,14 +57,14 @@ public class RBFSearch {
 
     private boolean useRandom() {
         current.setNumberOfConacts(18);
-        previous.setNumberOfConacts(18);
+        alternative.setNumberOfConacts(18);
         return getSolution(random.getState());
     }
 
     private boolean exchangeAndRerun() {
         Node n = current;
-        current = previous;
-        previous = n;
+        current = alternative;
+        alternative = n;
         return getSolution(current.getState());
     }
     public void heuristicFunction (int[][] board) {
