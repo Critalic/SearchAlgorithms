@@ -11,47 +11,45 @@ public class IDSearch {
             System.out.println();
         }
     }
-
     /* A utility function to check if a queen can
        be placed on board[row][col]. Note that this
        function is called when "col" queens are already
        placeed in columns from 0 to col -1. So we need
        to check only left side for attacking queens */
-    boolean isSafe(int board[][], int row, int col)
-    {
+    boolean isSafe(int board[][], int row, int col) {
         int i, j;
-
         /* Check this row on right side */
-        for (i = col+1; i < board.length; i++)
+        for (i = col + 1; i < board.length; i++)
             if (board[row][i] == 1)
                 return false;
         /* Check this row on left side */
-        for (i = col-1; i >=0; i--)
+        for (i = col - 1; i >= 0; i--)
             if (board[row][i] == 1)
                 return false;
 
         /* Check upper diagonal on right side */
-        for (i = row-1, j = col+1; i >=0 && j < board.length; i--, j++)
+        for (i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++)
             if (board[i][j] == 1)
                 return false;
 
         /* Check lower diagonal on right side */
-        for (i = row+1, j = col+1; j < board.length && i < board.length; i++, j++)
+        for (i = row + 1, j = col + 1; j < board.length && i < board.length; i++, j++)
             if (board[i][j] == 1)
                 return false;
 
         /* Check upper diagonal on left side */
-        for (i = row-1, j = col-1; i >=0 && j >=0; i--, j--)
+        for (i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--)
             if (board[i][j] == 1)
                 return false;
 
         /* Check lower diagonal on left side */
-        for (i = row+1, j = col-1; j >=0 && i < board.length; i++, j--)
+        for (i = row + 1, j = col - 1; j >= 0 && i < board.length; i++, j--)
             if (board[i][j] == 1)
                 return false;
 
         return true;
     }
+
     int findSafe(int[][]board, int col) {
         for(int i =col+1; i< board.length; i++) {
             for(int b =0; b<board.length; b++) {
@@ -78,7 +76,6 @@ public class IDSearch {
      boolean iterativeDepthSearch (int[][] board, int maximumDepth, int step) {
         for(int i=9; i<=maximumDepth; i+=step) {
             if(depthLimitedSearch(board, i, 0, 0).equals(State.TRUE)) return true;
-//            if(depthLimitedSearch(board, i, 0, 0).equals(State.CUTOFF)) continue;
         }
         return false;
     }

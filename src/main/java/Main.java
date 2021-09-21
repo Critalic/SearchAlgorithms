@@ -1,4 +1,6 @@
 import IDS.IDSearch;
+import RBFS.Node;
+import RBFS.RBFSearch;
 
 public class Main {
 
@@ -6,15 +8,16 @@ public class Main {
                             { 0, 0, 0, 0, 0, 0 ,1, 0 },
                             { 0, 0, 0, 0, 0, 0 ,0, 1 },
                             { 0, 0, 0, 0, 0, 0 ,0, 0 },
-                            { 0, 1, 0, 0, 0, 0 ,0, 0 },
-                            { 0, 0, 0, 1, 1, 0 ,0, 0 },
+                            { 0, 0, 0, 0, 0, 0 ,0, 0 },
+                            { 0, 1, 0, 1, 1, 0 ,0, 0 },
                             { 0, 0, 0, 0, 0, 1 ,0, 0 },
                             { 1, 0, 1, 0, 0, 0 ,0, 0 },};
 
-    // driver program to test above function
     public static void main(String args[])
     {
-        IDSearch Queen = new IDSearch();
-        Queen.solveNQ(board, 190, 2);
+//        IDSearch Queen = new IDSearch();
+//        Queen.solveNQ(board, 190, 2);
+        RBFSearch rbfSearch = new RBFSearch();
+        rbfSearch.solveNQ(board);
     }
 }
