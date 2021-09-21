@@ -7,6 +7,7 @@ public class RBFSearch {
     PriorityQueue<Node> stack = new PriorityQueue<>();
     Node current;
     Node previous;
+    Node random;
 
     /* A utility function to print solution */
     void printSolution(int board[][])
@@ -37,21 +38,34 @@ public class RBFSearch {
         }
         current = stack.poll();
         previous = stack.poll();
+        pickRandom();
         stack.clear();
         if(getSolution(current.getState())) return true;
-        exchange();
-        if(getSolution(current.getState())) return true;
-        exchange();
-        return getSolution(current.getState());
+//        for(int i=0; i<3; i++) if(exchangeAndRerun()) return true;
+        return useRandom();
     }
 
-    private void exchange() {
+    private void pickRandom() {
+        for(int i=0; i<(int)(Math.random()*(stack.size()-1 +1)+1); i++) {
+            stack.poll();
+        }
+        random = stack.poll();
+    }
+
+    private boolean useRandom() {
+        current.setNumberOfConacts(18);
+        previous.setNumberOfConacts(18);
+        return getSolution(random.getState());
+    }
+
+    private boolean exchangeAndRerun() {
         Node n = current;
         current = previous;
         previous = n;
+        return getSolution(current.getState());
     }
     public void heuristicFunction (int[][] board) {
-       int rowIndex=0;
+       int rowIndex;
        Node node = new Node(board ,numberOfIntersections(board));
        stack.add(node);
        for(int i=0; i< board.length;i++) {
