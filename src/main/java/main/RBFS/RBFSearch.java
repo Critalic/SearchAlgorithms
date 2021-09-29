@@ -1,30 +1,21 @@
-package RBFS;
+package main.RBFS;
+
+import main.Printer;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class RBFSearch {
+    Printer printer = new Printer();
     PriorityQueue<Node> stack = new PriorityQueue<>();
     Node current;
     Node alternative;
     Node random;
 
-    /* A utility function to print solution */
-    void printSolution(int[][] board)
-    {
-        for (int[] ints : board) {
-            for (int j = 0; j < board.length; j++)
-                System.out.print(" " + ints[j]
-                        + " ");
-            System.out.println();
-        }
-    }
-
-    public void solveNQ(int[][] board)
-    {
+    public void solveNQ(int[][] board) {
         current = new Node(board, numberOfIntersections(board));
         alternative = new Node(board, numberOfIntersections(board));
-        if(getSolution(board)) printSolution(current.getState());
+        if(getSolution(board)) printer.printSolution(current.getState());
         else System.out.println("Failed to find the solution");
     }
 
@@ -67,6 +58,7 @@ public class RBFSearch {
         alternative = n;
         return getSolution(current.getState());
     }
+
     public void heuristicFunction (int[][] board) {
        int rowIndex;
        Node node = new Node(board ,numberOfIntersections(board));
@@ -94,6 +86,7 @@ public class RBFSearch {
         }
         return number;
     }
+
     private int findItersectionsOfAQueen (int[][]board, int row, int col) {
         int number=0;
         int i, j;
@@ -142,11 +135,10 @@ public class RBFSearch {
         return number;
     }
 
-    int findQueen(int[][] board, int col) {
+    private int findQueen(int[][] board, int col) {
         for(int i =0; i<board.length; i++) {
             if(board[i][col]==1) return i;
         }
         return 0;
     }
-
 }

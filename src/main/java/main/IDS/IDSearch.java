@@ -1,19 +1,14 @@
-package IDS;
+package main.IDS;
+
+import main.Printer;
 
 public class IDSearch {
-    /* A utility function to print solution */
-    void printSolution(int[][] board)
-    {
-        for (int[] ints : board) {
-            for (int j = 0; j < board.length; j++)
-                System.out.print(" " + ints[j]
-                        + " ");
-            System.out.println();
-        }
-    }
+
+    private Printer printer = new Printer();
+
     /* A utility function to check if a queen can
        be placed on board[row][col]. */
-    boolean isSafe(int[][] board, int row, int col) {
+     boolean isSafe(int[][] board, int row, int col) {
         int i, j;
         /* Check this row on right side */
         for (i = col + 1; i < board.length; i++)
@@ -47,7 +42,7 @@ public class IDSearch {
         return true;
     }
 
-    int findSafe(int[][]board, int col) {
+    private int findSafe(int[][]board, int col) {
         for(int i =col+1; i< board.length; i++) {
             for(int b =0; b<board.length; b++) {
                 if(isSafe(board, b, i) && board[b][i]!=1) return i;
@@ -56,7 +51,7 @@ public class IDSearch {
         return 7;
     }
 
-    boolean checkIfInFinalState (int[][] board) {
+    private boolean checkIfInFinalState (int[][] board) {
         for(int col =0; col<board.length; col++) {
             for(int row =0; row<board[col].length; row++) {
                 if(board[row][col] ==1) {
@@ -70,15 +65,15 @@ public class IDSearch {
 
     /* A recursive utility function to solve N
        Queen problem */
-     boolean iterativeDepthSearch (int[][] board, int maximumDepth, int step) {
+    private boolean iterativeDepthSearch (int[][] board, int maximumDepth, int step) {
         for(int i=9; i<=maximumDepth; i+=step) {
             if(depthLimitedSearch(board, i, 0, 0).equals(State.TRUE)) return true;
         }
         return false;
     }
 
-    State depthLimitedSearch (int[][] board, int limit, int column, int iteration) {
-        printSolution(board);
+    private State depthLimitedSearch (int[][] board, int limit, int column, int iteration) {
+//        printer.printSolution(board);
         System.out.println();
         if(checkIfInFinalState(board)) return State.TRUE;
         // if the board's end has been reached then all queens are placed properly
@@ -120,14 +115,12 @@ public class IDSearch {
         return State.FALSE;
     }
 
-    public boolean solveNQ(int[][] board, int maximumDepth, int step)
-    {
+    public boolean solveNQ(int[][] board, int maximumDepth, int step) {
         if (!iterativeDepthSearch(board, maximumDepth, step)) {
             System.out.print("Solution does not exist");
             return false;
         }
-
-        printSolution(board);
+        printer.printSolution(board);
         return true;
     }
 }

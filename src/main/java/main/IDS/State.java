@@ -1,4 +1,4 @@
-package IDS;
+package main.IDS;
 
 public enum State {
     TRUE,

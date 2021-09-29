@@ -1,4 +1,4 @@
-package RBFS;
+package main.RBFS;
 
 public class Node implements Comparable<Node> {
     private final int[][] state;
