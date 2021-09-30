@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class RBFSearch {
+    int deaf =0;
+    private int iterations =0;
+    private int states =0;
     Printer printer = new Printer();
     PriorityQueue<Node> stack = new PriorityQueue<>();
     Node current;
@@ -15,13 +18,20 @@ public class RBFSearch {
     public void solveNQ(int[][] board) {
         current = new Node(board, numberOfIntersections(board));
         alternative = new Node(board, numberOfIntersections(board));
-        if(getSolution(board)) printer.printSolution(current.getState());
+        if(getSolution(board)) {
+            printer.printSolution(current.getState());
+            System.out.println(deaf);
+            System.out.println(iterations);
+            System.out.println(states);
+        }
         else System.out.println("Failed to find the solution");
     }
 
      boolean getSolution(int[][] board) {
+        iterations++;
         if(current.getNumberOfContacts()==0) return true;
         heuristicFunction(board);
+        states += stack.size();
         if(stack.isEmpty() || stack.peek().getNumberOfContacts()> current.getNumberOfContacts()) return false;
         if(stack.peek().getNumberOfContacts() >= alternative.getNumberOfContacts()) {
             current.setNumberOfConacts(stack.peek().getNumberOfContacts());
@@ -36,6 +46,7 @@ public class RBFSearch {
             stack.clear();
             if(exchangeAndRerun()) return true;
         }
+        deaf++;
         return useRandom();
     }
 
@@ -59,7 +70,7 @@ public class RBFSearch {
         return getSolution(current.getState());
     }
 
-    public void heuristicFunction (int[][] board) {
+    private void heuristicFunction (int[][] board) {
        int rowIndex;
        Node node = new Node(board ,numberOfIntersections(board));
        stack.add(node);

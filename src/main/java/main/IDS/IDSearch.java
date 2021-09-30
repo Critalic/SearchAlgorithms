@@ -2,8 +2,10 @@ package main.IDS;
 
 import main.Printer;
 
-public class IDSearch {
+import java.util.Random;
 
+public class IDSearch {
+    private int depth=0;
     private Printer printer = new Printer();
 
     /* A utility function to check if a queen can
@@ -73,13 +75,17 @@ public class IDSearch {
     }
 
     private State depthLimitedSearch (int[][] board, int limit, int column, int iteration) {
-//        printer.printSolution(board);
-        System.out.println();
-        if(checkIfInFinalState(board)) return State.TRUE;
         // if the board's end has been reached then all queens are placed properly
+        if(checkIfInFinalState(board)) {
+            depth += iteration;
+            return State.TRUE;
+        }
         if(column >= board.length) column=0;
         // if the limit has been exceeded return cutoff
-        if(iteration>=limit) return State.CUTOFF;
+        if(iteration>=limit) {
+            depth+= iteration;
+            return State.CUTOFF;
+        }
         // find the queen in the current column and recur forward if safe OR replace queen with 0 and go on
         for(int i=0; i<board.length; i++) {
             if(board[i][column]==1) {
@@ -118,9 +124,23 @@ public class IDSearch {
     public boolean solveNQ(int[][] board, int maximumDepth, int step) {
         if (!iterativeDepthSearch(board, maximumDepth, step)) {
             System.out.print("Solution does not exist");
+            System.out.println(depth);
+            int number=0;
+            Random r = new Random();
+            for(int i=0; i<depth; i++) {
+                number+= r.nextInt(10);
+            }
+            System.out.println(number);
             return false;
         }
         printer.printSolution(board);
-        return true;
+        System.out.println(depth);
+        int number=0;
+        Random r = new Random();
+        for(int i=0; i<depth; i++) {
+            number+= r.nextInt(10);
+        }
+        System.out.println(number);
+         return true;
     }
 }
